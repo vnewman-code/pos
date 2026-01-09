@@ -1,0 +1,3 @@
+﻿[1m[90m[TAILING] Tailing last 50 lines for [pos-app] process (change the value with --lines option)[39m[22m
+[90mC:\Users\vincent.newman\.pm2\logs\pos-app-out-0.log last 50 lines:[39m
+[90mC:\Users\vincent.newman\.pm2\logs\pos-app-error-0.log last 50 lines:[39m
