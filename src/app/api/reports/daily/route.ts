@@ -14,6 +14,7 @@ export async function GET() {
                 id: transactions.id,
                 total: transactions.total,
                 timestamp: transactions.timestamp,
+                items: transactions.items,
                 userId: transactions.userId,
                 userName: users.name, // Join to get user name
             })
@@ -22,9 +23,10 @@ export async function GET() {
             .where(sql`date(${transactions.timestamp}) = date('now')`)
             .orderBy(desc(transactions.timestamp));
 
-        // Calculate totals in JS
+        // Calculate totals and aggregate product sales
         let totalCash = 0;
         let totalAccount = 0;
+        const productSalesMap = new Map<string, number>();
 
         todaysTransactions.forEach((tx) => {
             if (tx.userId) {
@@ -32,14 +34,31 @@ export async function GET() {
             } else {
                 totalCash += tx.total;
             }
+
+            // Parse items and aggregate
+            try {
+                const items: any[] = JSON.parse(tx.items as string);
+                items.forEach((item) => {
+                    const currentQty = productSalesMap.get(item.name) || 0;
+                    productSalesMap.set(item.name, currentQty + item.quantity);
+                });
+            } catch (e) {
+                console.error(`Failed to parse items for tx ${tx.id}`, e);
+            }
         });
 
         const grandTotal = totalCash + totalAccount;
+
+        // Convert map to array
+        const productSales = Array.from(productSalesMap.entries())
+            .map(([name, quantity]) => ({ name, quantity }))
+            .sort((a, b) => b.quantity - a.quantity);
 
         return NextResponse.json({
             grandTotal,
             totalCash,
             totalAccount,
+            productSales,
             transactions: todaysTransactions,
         });
     } catch (error: any) {

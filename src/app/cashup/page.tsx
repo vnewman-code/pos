@@ -7,6 +7,7 @@ type DailyReport = {
     grandTotal: number;
     totalCash: number;
     totalAccount: number;
+    productSales: { name: string; quantity: number }[];
     transactions: {
         id: number;
         total: number;
@@ -96,6 +97,39 @@ export default function CashupPage() {
                         R{(report.grandTotal / 100).toFixed(2)}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">Total Venue Revenue</p>
+                </div>
+            </div>
+
+            {/* Product Sales Section */}
+            <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div className="p-6">
+                    <h3 className="font-semibold mb-4">Products Sold</h3>
+                    <div className="relative w-full overflow-auto">
+                        <table className="w-full caption-bottom text-sm text-left">
+                            <thead className="[&_tr]:border-b">
+                                <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Product</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Quantity Sold</th>
+                                </tr>
+                            </thead>
+                            <tbody className="[&_tr:last-child]:border-0">
+                                {report.productSales.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={2} className="p-4 text-center text-muted-foreground">
+                                            No products sold today.
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    report.productSales.map((item, idx) => (
+                                        <tr key={idx} className="border-b transition-colors hover:bg-muted/50">
+                                            <td className="p-4 align-middle font-medium">{item.name}</td>
+                                            <td className="p-4 align-middle text-right">{item.quantity}</td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

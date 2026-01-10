@@ -13,6 +13,7 @@ export function ProductList({ initialProducts }: { initialProducts: any[] }) {
                             <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Name</th>
                                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Barcode</th>
+                                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Stock</th>
                                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Price</th>
                             </tr>
                         </thead>
@@ -21,6 +22,7 @@ export function ProductList({ initialProducts }: { initialProducts: any[] }) {
                                 <tr key={product.id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                     <td className="p-4 align-middle font-medium">{product.name}</td>
                                     <td className="p-4 align-middle font-mono">{product.barcode}</td>
+                                    <td className="p-4 align-middle">{product.stock}</td>
                                     <td className="p-4 align-middle">R{(product.price / 100).toFixed(2)}</td>
                                 </tr>
                             ))}
