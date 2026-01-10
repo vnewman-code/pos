@@ -4,6 +4,7 @@ module.exports = {
             name: 'pos-app',
             script: 'npm',
             args: 'start',
+            cwd: './',
             instances: 1,
             autorestart: true,
             watch: false,
