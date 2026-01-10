@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { ShoppingCart, Users, Package } from "lucide-react";
+import { ShoppingCart, Users, Package, TrendingUp } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,6 +47,13 @@ export default function RootLayout({
                   >
                     <Package className="mr-2 h-4 w-4" />
                     Products
+                  </Link>
+                  <Link
+                    href="/cashup"
+                    className="flex items-center text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+                  >
+                    <TrendingUp className="mr-2 h-4 w-4" />
+                    Cashup
                   </Link>
                 </nav>
               </div>
