@@ -21,15 +21,27 @@ export function AddProductForm() {
             stock: Number(formData.get("stock")),
         };
 
-        await fetch("/api/products", {
-            method: "POST",
-            body: JSON.stringify(data),
-        });
+        try {
+            const res = await fetch("/api/products", {
+                method: "POST",
+                body: JSON.stringify(data),
+            });
 
-        setLoading(false);
-        setBarcode("");
-        router.refresh();
-        (e.target as HTMLFormElement).reset();
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({}));
+                throw new Error(errorData.message || res.statusText);
+            }
+
+            setLoading(false);
+            setBarcode("");
+            router.refresh();
+            (e.target as HTMLFormElement).reset();
+            alert("Product added successfully!");
+        } catch (error: any) {
+            console.error(error);
+            alert(`Failed to add product: ${error.message}`);
+            setLoading(false);
+        }
     }
 
     return (

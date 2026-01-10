@@ -7,7 +7,21 @@ import { AddProductForm } from "./add-product-form";
 export const dynamic = "force-dynamic";
 
 export default async function ProductsPage() {
-    const allProducts = await db.select().from(products).orderBy(desc(products.createdAt));
+    let allProducts = [];
+    try {
+        allProducts = await db.select().from(products).orderBy(desc(products.createdAt));
+    } catch (e: any) {
+        return (
+            <div className="p-10 text-red-500 font-bold">
+                <h1>Error Loading Products</h1>
+                <pre>{e.message}</pre>
+                <div className="mt-4 text-sm text-gray-500">
+                    <p>Did you remember to run the migration?</p>
+                    <code className="bg-gray-100 p-1 rounded">npx drizzle-kit push</code>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
