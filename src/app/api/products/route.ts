@@ -9,12 +9,13 @@ export async function GET() {
 
 export async function POST(request: Request) {
     const body = await request.json();
-    const { name, barcode, price } = body;
+    const { name, barcode, price, stock } = body;
 
     const newProduct = await db.insert(products).values({
         name,
         barcode,
         price,
+        stock: stock || 0,
     }).returning();
 
     return NextResponse.json(newProduct[0]);
